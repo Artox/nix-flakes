@@ -35,12 +35,12 @@
                 flex
                 perl
                 bc
-                openssl
+                openssl.dev
                 rsync
-                gmp
+                gmp.dev
                 libmpc
-                mpfr
-                elfutils
+                mpfr.dev
+                elfutils.dev
                 zstd
                 kmod
                 util-linux
@@ -49,7 +49,7 @@
                 zlib
                 python3Minimal
                 ubootTools
-                ncurses
+                ncurses.dev
                 pkg-config
                 gnumake
                 dt-schema
