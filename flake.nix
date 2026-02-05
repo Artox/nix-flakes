@@ -30,6 +30,7 @@
               ++ (with pkgs; [
                 pkgsAarch64.stdenv.cc
                 pkgsArmv7l.stdenv.cc
+                pkgs.stdenv.cc
                 bison
                 flex
                 perl
