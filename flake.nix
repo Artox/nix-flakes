@@ -19,8 +19,10 @@
         let
           pkgs = nixpkgs.legacyPackages.${system};
 
-          pkgsAarch64 = pkgs.pkgsCross.aarch64-multiplatform;
+          pkgsAarch64 = if system == "aarch64-linux" then pkgs else pkgs.pkgsCross.aarch64-multiplatform;
           pkgsArmv7l = pkgs.pkgsCross.armv7l-hf-multiplatform;
+          pkgsx86_64 = if system == "x86_64-linux" then pkgs else pkgs.pkgsCross.gnu64;
+          #pkgsx86_64 = pkgs.pkgsCross.gnu64;
           kernelBuildDeps = pkgs.linux_latest.nativeBuildInputs;
 
           devShell = pkgs.mkShell {
@@ -30,7 +32,7 @@
               ++ (with pkgs; [
                 pkgsAarch64.stdenv.cc
                 pkgsArmv7l.stdenv.cc
-                pkgs.stdenv.cc
+                pkgsx86_64.stdenv.cc
                 bison
                 flex
                 perl
@@ -49,7 +51,7 @@
                 zlib
                 python3Minimal
                 ubootTools
-                ncurses.dev
+                ncurses
                 pkg-config
                 gnumake
                 dt-schema
@@ -84,6 +86,8 @@
                 shift
               fi
 
+              export CPATH="${pkgs.gmp.dev}/include:${pkgs.elfutils.dev}/include:${pkgs.openssl.dev}/include:$CPATH:${pkgs.libmpc}/include:${pkgs.mpfr.dev}/include"
+              export LIBRARY_PATH="${pkgs.gmp}/lib:${pkgs.elfutils.out}/lib:${pkgs.openssl.out}/lib:${pkgs.libmpc}/lib:${pkgs.mpfr}/lib:$LIBRARY_PATH"
               export ARCH CROSS_COMPILE
 
               echo "╔════════════════════════════════════════════════════╗"
